@@ -1,4 +1,4 @@
-from document_preprocess.tokenizer import (
+from preprocessing.tokenizer import (
     normalize_tokens,
     tokenize_text,
 )

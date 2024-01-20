@@ -1,6 +1,6 @@
 import re
 
-from document_preprocess.tokenizer_config import (
+from preprocessing.tokenizer_config import (
     token_pattern,
     same_chars_3,
     same_terms_15,
@@ -20,6 +20,9 @@ def normalize_tokens(tokens):
     intermed_tokens = [token.lower() for token in tokens]
     intermed_tokens = [_uniteForms(itoken, same_chars_3) for itoken in intermed_tokens]
     intermed_tokens = [_uniteForms(itoken, same_terms_15) for itoken in intermed_tokens]
+    # english numbers
+    # remove fathe, kasre, marks and etc
+    # remove frequents
     normalized_tokens = _merge_over_tokenized(intermed_tokens, affix_list_15)
 
     return normalized_tokens

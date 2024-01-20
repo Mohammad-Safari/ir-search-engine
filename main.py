@@ -1,6 +1,6 @@
 import json
 
-from document_preprocess.preprocess import preprocess_document_collection
+from preprocessing.preprocess import preprocess_document_collection
 from indexing.indexer import build_inverted_index
 from indexing.persistent import ind2json, load_index, save_index
 

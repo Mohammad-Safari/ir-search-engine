@@ -1,6 +1,6 @@
 import unittest
 
-from document_preprocess.tokenizer import normalize_tokens, tokenize_text
+from preprocessing.tokenizer import normalize_tokens, tokenize_text
 
 
 class TokenizerTests(unittest.TestCase):

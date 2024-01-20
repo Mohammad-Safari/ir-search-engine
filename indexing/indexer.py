@@ -1,4 +1,4 @@
-from document_preprocess.preprocess import preprocess_document
+from preprocessing.preprocess import preprocess_document
 
 
 FREQUENCY_KEY = "freq"
