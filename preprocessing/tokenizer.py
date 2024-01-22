@@ -1,10 +1,11 @@
 import re
 
-from preprocessing.tokenizer_config import (
+from preprocessing.configuration import (
     token_pattern,
     same_chars_3,
     same_terms_15,
     affix_list_15,
+    same_digits,
     halfspace,
 )
 
@@ -20,9 +21,8 @@ def normalize_tokens(tokens):
     intermed_tokens = [token.lower() for token in tokens]
     intermed_tokens = [_uniteForms(itoken, same_chars_3) for itoken in intermed_tokens]
     intermed_tokens = [_uniteForms(itoken, same_terms_15) for itoken in intermed_tokens]
-    # english numbers
-    # remove fathe, kasre, marks and etc
-    # remove frequents
+    intermed_tokens = [_uniteForms(itoken, same_digits) for itoken in intermed_tokens]
+    intermed_tokens = [remove_tanvin_and_marks(itoken) for itoken in intermed_tokens]
     normalized_tokens = _merge_over_tokenized(intermed_tokens, affix_list_15)
 
     return normalized_tokens
@@ -46,6 +46,16 @@ def _merge_by_halfspace(t1, t2):
 def _remove_token_by_index(tokens, i):
     new_tokens = tokens[:i] + tokens[i + 1 :]
     return new_tokens, len(new_tokens)
+
+
+def remove_tanvin_and_marks(text):
+    # Remove Tanvin (تنوین)
+    text = re.sub(r"[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]+", "", text)
+
+    # Remove unnecessary marks like <, >, etc.
+    text = re.sub(r"[<>\[\]\{\}()\|]+", "", text)
+
+    return text
 
 
 def _merge_over_tokenized(tokens: list, affix_list: dict):
