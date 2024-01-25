@@ -1,7 +1,9 @@
 from collections import Counter
 
 
-def remove_most_frequent_terms(documents_tokenlist, threshold):
+def remove_most_frequent_terms(
+    documents_tokenlist: list[str], threshold: int
+) -> list[str]:
     """remove top frequent tokens of whole document collection"""
     term_frequencies = None
     for doc_id, tokens in documents_tokenlist.items():
@@ -16,7 +18,9 @@ def remove_most_frequent_terms(documents_tokenlist, threshold):
     return filtered_documents_tokenlist
 
 
-def calculate_term_frequencies(document_tokens, term_frequencies=None):
+def calculate_term_frequencies(
+    document_tokens: list[str], term_frequencies: Counter = None
+) -> Counter:
     """calculate frequency of tokens"""
     if not term_frequencies:
         term_frequencies = Counter()

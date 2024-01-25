@@ -10,19 +10,19 @@ from preprocessing.configuration import (
 )
 
 
-def tokenize_text(text):
+def tokenize_text(text: str) -> list[str]:
     """Use regular expression to extract tokens"""
     tokens = re.findall(token_pattern, text)
     return tokens
 
 
-def normalize_tokens(tokens):
+def normalize_tokens(tokens: list[str]) -> list[str]:
     """normalize a set of ordered tokens, extracted from a text"""
     intermed_tokens = [token.lower() for token in tokens]
     intermed_tokens = [_uniteForms(itoken, same_chars_3) for itoken in intermed_tokens]
     intermed_tokens = [_uniteForms(itoken, same_terms_15) for itoken in intermed_tokens]
     intermed_tokens = [_uniteForms(itoken, same_digits) for itoken in intermed_tokens]
-    intermed_tokens = [remove_tanvin_and_marks(itoken) for itoken in intermed_tokens]
+    intermed_tokens = [_remove_tanvin_and_marks(itoken) for itoken in intermed_tokens]
     normalized_tokens = _merge_over_tokenized(intermed_tokens, affix_list_15)
 
     return normalized_tokens
@@ -48,7 +48,7 @@ def _remove_token_by_index(tokens, i):
     return new_tokens, len(new_tokens)
 
 
-def remove_tanvin_and_marks(text):
+def _remove_tanvin_and_marks(text):
     # Remove Tanvin (تنوین)
     text = re.sub(r"[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]+", "", text)
 

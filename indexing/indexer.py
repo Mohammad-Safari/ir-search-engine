@@ -1,10 +1,15 @@
-from preprocessing.preprocess import preprocess_document
+from typing import TypeAlias
+from preprocessing.preprocess import PreprocessedCollection, preprocess_document
 
-
+Positions: TypeAlias = list[int]
+PositionalPostings: TypeAlias = dict[str, Positions]
+InvertedIndex: TypeAlias = dict[str, PositionalPostings]
 FREQUENCY_KEY = "freq"
 
 
-def build_inverted_index(preprocessed_documents):
+def build_inverted_index(
+    preprocessed_documents: PreprocessedCollection,
+) -> InvertedIndex:
     inverted_index = {}
     for news_id, doc_tokens in preprocessed_documents.items():
         for token_position in range(len(doc_tokens)):
@@ -18,7 +23,7 @@ def build_inverted_index(preprocessed_documents):
     return inverted_index
 
 
-def simple_search(query, inverted_index):
+def simple_search(query: str, inverted_index: InvertedIndex):
     query_tokens = preprocess_document(query)
     relevant_documents = set()
     for token in query_tokens:

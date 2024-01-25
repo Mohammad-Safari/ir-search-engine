@@ -1,3 +1,4 @@
+from typing import TypeAlias
 from preprocessing.language import unite_by_stemming
 from preprocessing.statistical import remove_most_frequent_terms
 from preprocessing.tokenizer import (
@@ -5,8 +6,11 @@ from preprocessing.tokenizer import (
     tokenize_text,
 )
 
+PreprocessedDocument: TypeAlias = list[str]
+PreprocessedCollection: TypeAlias = dict[str, PreprocessedDocument]
 
-def preprocess_document(document):
+
+def preprocess_document(document: str) -> PreprocessedDocument:
     """produce a list of preprocessed and ordered token out of document"""
     tokens = tokenize_text(document)
     tokens = normalize_tokens(tokens)
@@ -14,7 +18,7 @@ def preprocess_document(document):
     return tokens
 
 
-def preprocess_document_collection(dataset):
+def preprocess_document_collection(dataset: dict[str, str]) -> PreprocessedCollection:
     """produces a map of documents and their list of preprocessed and ordered tokens"""
     preprocessed_documents = {}
     for news_id, document in dataset.items():
