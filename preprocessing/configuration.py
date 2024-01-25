@@ -4,6 +4,7 @@ id_pattern, number_pattern, email_pattern = (r"\B@\w+", r"\b\d+\b", r"\b\w+@\w+\
 # keeping half-spaced parts in a token
 token_pattern = rf"{email_pattern}|{id_pattern}|{number_pattern}|\b[\w{halfspace}]+"
 
+same_chars_3 = {"ی": ["ي"], "ا": ["آ"], "ک": ["ك"]}
 affix_list_15 = {
     "post": [
         "ی",
@@ -19,12 +20,12 @@ affix_list_15 = {
         "ام",
         "ات",
         "اش",
+        "گزار",
     ],
     "pre": ["می", "نمی"],
 }
-same_chars_3 = {"ی": ["ي"], "ا": ["آ"], "ک": ["ك"]}
 same_terms_15 = {
-    "﷽": ["بسم االله الرحمن الرحیم"],
+    "﷽": ["بسم الله الرحمن الرحیم"],
     "آینه": ["آیینه"],
     "تاق": ["طاق"],
     "لوت": ["لوط"],
