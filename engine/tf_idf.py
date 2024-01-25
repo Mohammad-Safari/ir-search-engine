@@ -45,8 +45,8 @@ def calculate_documents_tf(
     """Calculate term frequency (tf) for each document"""
     tf = {}
     for term, posting in inverted_index.items():
-        docs_id = posting.keys()
-        for doc_id in docs_id:
-            tf.setdefault(doc_id, defaultdict(int))
-            tf[doc_id][term] += 1
+        for doc_id in posting.keys():
+            if isinstance(posting[doc_id], list):
+                tf.setdefault(doc_id, defaultdict(int))
+                tf[doc_id][term] += 1
     return tf

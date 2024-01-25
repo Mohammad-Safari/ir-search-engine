@@ -2,7 +2,7 @@ from typing import TypeAlias
 from preprocessing.preprocess import PreprocessedCollection, preprocess_document
 
 Positions: TypeAlias = list[int]
-PositionalPostings: TypeAlias = dict[str, Positions]
+PositionalPostings: TypeAlias = dict[str, Positions | int]
 InvertedIndex: TypeAlias = dict[str, PositionalPostings]
 FREQUENCY_KEY = "freq"
 
