@@ -1,5 +1,5 @@
 import json
-from engine.tf_idf import calculate_tf_idf_weights
+from engine.weighting import calculate_tf_idf_weights
 from interface.app import start_webui
 
 from preprocessing.preprocess import preprocess_document_collection

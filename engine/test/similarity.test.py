@@ -7,7 +7,7 @@ from engine.similarity import (
 )
 
 
-class TokenizerTests(unittest.TestCase):
+class SimilarityTests(unittest.TestCase):
     def test_query_vectorize(self):
         query = """
             سلام،

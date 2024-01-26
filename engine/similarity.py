@@ -1,6 +1,6 @@
 from math import sqrt
-from engine.tf_idf import TfIdfPseudoVector, calculate_documents_tf
-from indexing.indexer import InvertedIndex, build_inverted_index
+from engine.weighting import TfIdfPseudoVector, calculate_documents_tf
+from indexing.indexer import build_inverted_index
 from preprocessing.preprocess import preprocess_document
 
 
