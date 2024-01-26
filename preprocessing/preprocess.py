@@ -1,6 +1,6 @@
 from typing import TypeAlias
 from preprocessing.language import unite_by_stemming
-from preprocessing.statistical import remove_most_frequent_terms
+from preprocessing.statistical import TermFrequencyList, eliminate_most_frequent_terms, get_most_frequent_terms_with_freq
 from preprocessing.tokenizer import (
     normalize_tokens,
     tokenize_text,
@@ -18,12 +18,17 @@ def preprocess_document(document: str) -> PreprocessedDocument:
     return tokens
 
 
-def preprocess_document_collection(dataset: dict[str, str]) -> PreprocessedCollection:
-    """produces a map of documents and their list of preprocessed and ordered tokens"""
+def preprocess_document_collection(
+    dataset: dict[str, str], repetitive_eliminate_rank: int = 50
+) -> tuple[PreprocessedCollection, TermFrequencyList] :
+    """produces a map of documents and their list of preprocessed and ordered tokens
+    besides eliminated tokens and their frequency"""
     preprocessed_documents = {}
     for news_id, document in dataset.items():
         preprocessed_documents[news_id] = preprocess_document(document["content"])
 
-    preprocessed_documents = remove_most_frequent_terms(preprocessed_documents, 50)
+    most_frequent_terms_with_freq = get_most_frequent_terms_with_freq(preprocessed_documents, repetitive_eliminate_rank)
 
-    return preprocessed_documents
+    filtered_preprocessed_docs = eliminate_most_frequent_terms(preprocessed_documents, map(lambda tf: tf[0], most_frequent_terms_with_freq))
+
+    return filtered_preprocessed_docs, most_frequent_terms_with_freq
