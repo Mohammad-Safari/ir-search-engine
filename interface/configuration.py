@@ -1,6 +1,3 @@
-from engine.optimization import create_champion_lists
-
-
 class AppConfig:
     RESULT_LIMIT = 20
 

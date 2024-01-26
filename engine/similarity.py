@@ -1,3 +1,4 @@
+import heapq
 from math import sqrt
 from engine.weighting import TfIdfPseudoVector, calculate_documents_tf
 from indexing.indexer import build_inverted_index
@@ -13,13 +14,19 @@ def vectorize_query(query: str) -> TfIdfPseudoVector:
 
 
 def search_documents(
-    query_vector: dict[str, float], document_vectors: dict[str, TfIdfPseudoVector]
+    query_vector: dict[str, float],
+    document_vectors: dict[str, TfIdfPseudoVector],
+    result_limit: int = None,
 ) -> list[tuple[str, float]]:
     similarities = {}
     for doc_id, doc_vector in document_vectors.items():
         similarity = _calculate_cosine_similarity(query_vector, doc_vector)
         similarities[doc_id] = similarity
-    sorted_documents = sorted(similarities.items(), key=lambda x: x[1], reverse=True)
+    sorted_documents = (
+        sorted(similarities.items(), key=lambda x: x[1], reverse=True)
+        if not result_limit
+        else heapq.nlargest(result_limit, similarities.items(), key=lambda x: x[1])
+    )
     return sorted_documents
 
 
