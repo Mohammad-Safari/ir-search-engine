@@ -36,3 +36,17 @@ def create_champion_lists(
             champions_weights[doc_id][term] = doc_weight
 
     return champions_weights
+
+
+def prune_documents_weights(
+    query_vector: dict[str, float],
+    term_vectors: dict[str, TfIdfPivotPseudoVector],
+) -> dict[str, TfIdfPseudoVector]:
+    """in case of small queries can eliminate a lot of nonrelevant docs,
+    participating in similarity calculations by just focusing on query terms"""
+    pruned_document_vectors = defaultdict(TfIdfPseudoVector)
+    for term in query_vector.keys():
+        term_vector = term_vectors[term]
+        for doc_id in term_vector.keys():
+            pruned_document_vectors[doc_id][term] = term_vectors[term][doc_id]
+    return pruned_document_vectors
