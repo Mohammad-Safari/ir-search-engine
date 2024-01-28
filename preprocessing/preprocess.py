@@ -29,6 +29,6 @@ def preprocess_document_collection(
 
     most_frequent_terms_with_freq = get_most_frequent_terms_with_freq(preprocessed_documents, repetitive_eliminate_rank)
 
-    filtered_preprocessed_docs = eliminate_most_frequent_terms(preprocessed_documents, map(lambda tf: tf[0], most_frequent_terms_with_freq))
+    filtered_preprocessed_docs = eliminate_most_frequent_terms(preprocessed_documents, list(map(lambda tf: tf[0], most_frequent_terms_with_freq)))
 
     return filtered_preprocessed_docs, most_frequent_terms_with_freq
