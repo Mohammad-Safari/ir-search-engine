@@ -48,5 +48,5 @@ def calculate_documents_tf(
         for doc_id in posting.keys():
             if isinstance(posting[doc_id], list):
                 tf.setdefault(doc_id, defaultdict(int))
-                tf[doc_id][term] += 1
+                tf[doc_id][term] += len(posting[doc_id])
     return tf
