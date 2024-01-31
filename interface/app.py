@@ -24,7 +24,7 @@ def index():
 def get_document_weights(query_terms: list[str]):
     if AppConfig.USE_CHAMPION_LIST:
         return create_champion_lists(
-            query_terms, AppConfig.pivoted_tf_idf_weights, AppConfig.CHAMPION_SIZE
+            query_terms, AppConfig.tf_idf_weights, AppConfig.pivoted_tf_idf_weights, AppConfig.CHAMPION_SIZE
         )
     else:
         return AppConfig.tf_idf_weights

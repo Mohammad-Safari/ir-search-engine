@@ -24,6 +24,7 @@ def pivot_tf_idf_weights(
 
 def create_champion_lists(
     query_terms: list[str],
+    tf_idf_weights: dict[str, TfIdfPseudoVector],
     pivoted_tf_idf_weights: dict[str, TfIdfPivotPseudoVector],
     k=5,
 ) -> dict[str, TfIdfPseudoVector]:
@@ -31,7 +32,7 @@ def create_champion_lists(
     champions_weights = defaultdict(TfIdfPseudoVector)
     for term in query_terms:
         doc_weights = pivoted_tf_idf_weights[term]
-        top_doc = heapq.nlargest(k, doc_weights.items(), key=lambda x: x[1])
+        top_doc = heapq.nlargest(k, doc_weights.items(), key=lambda x: x[1]/len(tf_idf_weights[x[0]]))
         for doc_id, doc_weight in top_doc:
             champions_weights[doc_id][term] = doc_weight
 
