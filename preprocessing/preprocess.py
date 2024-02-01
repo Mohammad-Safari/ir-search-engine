@@ -17,6 +17,11 @@ def preprocess_document(document: str) -> PreprocessedDocument:
     tokens = unite_by_stemming(tokens)
     return tokens
 
+def preprocess_document_collection_parallel(news_id, document):
+    r = news_id, preprocess_document(document["content"])
+    progress.count()
+    return r
+
 
 def preprocess_document_collection(
     dataset: dict[str, str], repetitive_eliminate_rank: int = 50
@@ -24,8 +29,13 @@ def preprocess_document_collection(
     """produces a map of documents and their list of preprocessed and ordered tokens
     besides eliminated tokens and their frequency"""
     preprocessed_documents = {}
-    for news_id, document in dataset.items():
-        preprocessed_documents[news_id] = preprocess_document(document["content"])
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        results = list(executor.map(preprocess_document_collection_parallel , dataset.keys(), dataset.values()))
+    for news_id, preprocessed_document in results:
+        preprocessed_documents[news_id] = preprocessed_document[:-2]
+    # single thread 
+    # for news_id, document in dataset.items():
+    #     preprocessed_documents[news_id] = preprocess_document(document["content"])
 
     most_frequent_terms_with_freq = get_most_frequent_terms_with_freq(preprocessed_documents, repetitive_eliminate_rank)
 
